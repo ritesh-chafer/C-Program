@@ -1,0 +1,229 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+}*start=NULL;
+void create();
+void insert_beg();
+void insert_end();
+void insert_loc();
+void insert_val();
+void display();
+void count_node();
+void search_val();
+void delete_val();
+void max_min();
+int main()
+{
+    int option;
+    create();
+    while(1)
+    {
+        printf("1.INSERT_BEG\n2.INSERT_END\n3.INSERT LOC\n4.INSERT VAL\n5.DISPLAY\n6.COUNT NODE\n7.SEARCH VALUE\n8.DELETE VAL\n9.MAX MIN\n10.EXIT\n");
+        scanf("%d",&option);
+        switch(option)
+        {
+        case 1:
+            insert_beg();
+            break;
+        case 2:
+            insert_end();
+            break;
+        case 3:
+            insert_loc();
+            break;
+        case 4:
+            insert_val();
+            break;
+        case 5:
+            display();
+            break;
+        case 6:
+            count_node();
+            break;
+        case 7:
+            search_val();
+            break;
+        case 8:
+            delete_val();
+            break;
+        case 9:
+            max_min();
+            break;
+        case 10:
+            exit(0);
+        }
+    }
+    return 0;
+}
+void create()
+{
+    int n,i=1,item;
+    struct node *ptr;
+    printf("Enter the number of elements\n");
+    scanf("%d",&n);
+    ptr=(struct node*)malloc(sizeof(struct node));
+    start=ptr;
+    printf("Enter the element %d\n",i);
+    scanf("%d",&item);
+    ptr->data=item;
+    ptr->next=NULL;
+    for(i=2;i<=n;i++)
+    {
+        printf("Enter the element %d\n",i);
+        scanf("%d",&item);
+        ptr->next=(struct node*)malloc(sizeof(struct node));
+        ptr=ptr->next;
+        ptr->data=item;
+        ptr->next=NULL;
+    }
+}
+void display()
+{
+    struct node*p=start;
+    printf("The elements entered are as follows\n");
+    while(p!=NULL)
+    {
+        printf("%d\n",p->data);
+        p=p->next;
+    }
+}
+void insert_beg()
+{
+    int item;
+    struct node *temp;
+    printf("Enter the item\n");
+    scanf("%d",&item);
+    temp=(struct node *)malloc(sizeof(struct node));
+    temp->data=item;
+    temp->next=start;
+    start=temp;
+}
+void insert_end()
+{
+    int item;
+    struct node *temp,*p;
+    p=start;
+    printf("Enter the item\n");
+    scanf("%d",&item);
+    temp=(struct node *)malloc(sizeof(struct node));
+    temp->data=item;
+    temp->next=NULL;
+    while(p->next!=NULL)
+        p=p->next;
+    p->next=temp;
+}
+void insert_loc()
+{
+    int item,i,loc;
+    struct node *temp,*p;
+    p=start;
+    printf("Enter the item\n");
+    scanf("%d",&item);
+    printf("Enter the location");
+    scanf("%d",&loc);
+    temp=(struct node *)malloc(sizeof(struct node));
+    temp->data=item;
+    for(i=1;i<loc;i++)
+        p=p->next;
+    temp->next=p->next;
+    p->next=temp;
+}
+void insert_val()
+{
+    int item,val;
+    struct node *temp,*p;
+    p=start;
+    printf("Enter the data part in node");
+    scanf("%d",&val);
+    printf("Enter the item\n");
+    scanf("%d",&item);
+    temp=(struct node *)malloc(sizeof(struct node));
+    temp->data=item;
+    while(p->data!=val)
+    {
+        p=p->next;
+    }
+    temp->next=p->next;
+    p->next=temp;
+}
+void count_node()
+{
+    struct node *p=start;
+    int i=0;
+    while(p!=NULL)
+    {
+        p=p->next;
+        i++;
+    }
+    printf("The number of nodes present is %d\n",i);
+}
+void search_val()
+{
+    int item,i=0;
+    struct node *p=start;
+    printf("Enter the item you want to search\n");
+    scanf("%d",&item);
+    while(p!=NULL)
+    {
+        if(p->data==item)
+        {
+            printf("The item is found in node %d\n",i+1);
+            break;
+        }
+        p=p->next;
+        i++;
+    }
+    if(p==NULL)
+        printf("\nItem not present\n");
+}
+void delete_val()
+{
+    int val;
+    struct node*p=start;
+    struct node *temp;
+    printf("Enter the data to be deleted\n");
+    scanf("%d",&val);
+    if(start->data==val)
+    {
+        start=start->next;
+        free(p);
+    }
+    else
+    {
+       while(p->data!=val)
+       {
+           temp=p;
+            p=p->next;
+       }
+       temp->next=p->next;
+    }
+}
+void max_min()
+{
+    struct node*p=start;
+    int large=start->data;
+    int small=start->data;
+    while(p!=NULL)
+    {
+        if((p->data)>large)
+            {
+                large=p->data;
+            }
+            p=p->next;
+    }
+    printf("The largest data is %d\n",large);
+    p=start;
+    while(p!=NULL)
+    {
+        if((p->data)<small)
+            {
+                small=p->data;
+            }
+            p=p->next;
+    }
+    printf("The smallest data is %d\n",small);
+
+}
